@@ -19,7 +19,7 @@ const router = createBrowserRouter([
                 element: <Landing />,
             },
             {
-                path: 'register',
+                path: 'signup',
                 element: <Signup />,
             },
             {
