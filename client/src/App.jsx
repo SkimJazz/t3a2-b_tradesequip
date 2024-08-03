@@ -3,7 +3,7 @@ import {
     HomeLayout,
     Landing,
     DashboardLayout,
-    Register,
+    Signup,
     Login,
     Error,
 }  from './pages';
@@ -20,7 +20,7 @@ const router = createBrowserRouter([
             },
             {
                 path: 'register',
-                element: <Register />,
+                element: <Signup />,
             },
             {
                 path: 'login',
