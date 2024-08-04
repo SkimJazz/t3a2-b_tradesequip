@@ -6,6 +6,10 @@ import {
     Signup,
     Login,
     Error,
+    NewJob,
+    MyJobs,
+    MyProfile,
+    Admin,
 }  from './pages';
 
 const router = createBrowserRouter([
@@ -29,6 +33,24 @@ const router = createBrowserRouter([
             {
                 path: 'dashboard',
                 element: <DashboardLayout />,
+                children: [
+                    {
+                        index: true, // userprofile API endpoint
+                        element: <MyProfile />,
+                    },
+                    {
+                        path: 'new-job' ,
+                        element: <NewJob />,
+                    },
+                    {
+                        path: 'my-jobs',
+                        element: <MyJobs />,
+                    },
+                    {
+                        path: 'admin',
+                        element: <Admin />,
+                    },
+                ],
             },
 
         ],
