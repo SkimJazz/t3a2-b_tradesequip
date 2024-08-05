@@ -50,7 +50,7 @@ const Wrapper = styled.nav`
           width: 90%;
         }
         .logo {
-          display: none;
+            display: none;
         }
         .logo-text {
           display: block;
