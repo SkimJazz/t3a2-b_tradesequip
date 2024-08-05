@@ -8,7 +8,7 @@ import { useDashboardContext } from '../pages/DashboardLayout';
 
 const Navbar = () => {
 
-    const { SidebarToggle } = useDashboardContext();
+    const { sidebarToggle } = useDashboardContext();
 
     return (
         <Wrapper>
@@ -16,7 +16,7 @@ const Navbar = () => {
                 <button
                     type='button'
                     className='toggle-btn'
-                    onClick={ SidebarToggle }
+                    onClick={ sidebarToggle }
                 >
                     <FaAlignJustify />
                 </button>

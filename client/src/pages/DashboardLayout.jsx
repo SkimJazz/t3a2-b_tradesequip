@@ -21,13 +21,12 @@ const DashboardLayout = () => {
     const DarkThemeToggle = () => {
         console.log('toggle dark theme');
     };
-    const SidebarToggle = () => {
+    const sidebarToggle = () => {
         setShowSidebar(!showSidebar);
     };
     const UserLogout= async () => {
         console.log('logout user');
     };
-
 
     return (
 
@@ -37,7 +36,7 @@ const DashboardLayout = () => {
                 showSidebar,
                 isDarkTheme,
                 DarkThemeToggle,
-                SidebarToggle,
+                sidebarToggle,
                 UserLogout,
             }}
         >
