@@ -2,8 +2,11 @@ import { Outlet } from 'react-router-dom';
 import Wrapper from '../assets/wrappers/Dashboard';
 import { SmallSidebar, LargeSidebar, Navbar } from '../components';
 import { useState, createContext, useContext } from 'react';
+import { checkDefaultTheme } from '../App';
+
 
 const DashboardContext = createContext();
+
 
 const DashboardLayout = () => {
 
@@ -14,12 +17,18 @@ const DashboardLayout = () => {
      */
     const user = { name: 'josh' };
     const [showSidebar, setShowSidebar] = useState(false);
-    const [isDarkTheme, setIsDarkTheme] = useState(false);
+    const [isDarkTheme, setIsDarkTheme] = useState(checkDefaultTheme());
 
 
     // GLOBAL Values - Placeholder functions for setting up the context provider
-    const DarkThemeToggle = () => {
-        console.log('toggle dark theme');
+    const darkThemeToggle = () => {
+        const newDarkTheme  = !isDarkTheme;
+        setIsDarkTheme(newDarkTheme);
+
+        // Vanilla JS to toggle the theme
+        document.body.classList.toggle('dark-theme', newDarkTheme);
+        // Vanilla JS to persist the theme value (save to local storage)
+        localStorage.setItem('darkTheme', newDarkTheme);
     };
     const sidebarToggle = () => {
         setShowSidebar(!showSidebar);
@@ -35,7 +44,7 @@ const DashboardLayout = () => {
                 user,
                 showSidebar,
                 isDarkTheme,
-                DarkThemeToggle,
+                darkThemeToggle,
                 sidebarToggle,
                 UserLogout,
             }}
