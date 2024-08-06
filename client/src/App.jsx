@@ -12,6 +12,17 @@ import {
     Admin,
 }  from './pages';
 
+
+// Check if user has dark theme set. Run when component mounts
+export const checkDefaultTheme = () => {
+    const isDarkTheme = localStorage.getItem('darkTheme') === 'true';
+    document.body.classList.toggle('dark-theme', isDarkTheme);
+    return isDarkTheme;
+}
+checkDefaultTheme();
+
+
+
 const router = createBrowserRouter([
     {
         path: '/',

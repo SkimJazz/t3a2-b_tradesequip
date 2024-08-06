@@ -4,6 +4,7 @@ import Logo from './Logo';
 
 import { useDashboardContext } from '../pages/DashboardLayout';
 import Logout from "./Logout.jsx";
+import ThemeToggle from "./Theme.jsx";
 
 
 
@@ -26,7 +27,9 @@ const Navbar = () => {
                     <h4 className='logo-text'>dashboard</h4>
                 </div>
                 <div className='btn-container'>
+                    <ThemeToggle />
                     <Logout />
+
                 </div>
             </div>
         </Wrapper>
