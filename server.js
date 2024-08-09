@@ -18,9 +18,8 @@ import jobRouter from "./routes/jobRouter.js";
 // PUBLIC IMPORTS
 
 
-
 // MIDDLEWARE IMPORTS
-
+import handlesErrorMiddleware from './middleware/handlesErrorMiddleware.js';
 
 
 // -------------------------- MIDDLEWARE --------------------------- //
@@ -79,6 +78,15 @@ app.use('*', (req, res) => {
 
 
 /**
+ * WARNING!! Mount the errorHandlerMiddleware function BEFORE the 500 error
+ * middleware or the 'throw new NotFoundError' in jobController.js will not
+ * work, as the error will not be caught by the customError.js or
+ * errorHandlerMiddleware.js middleware functions.
+ */
+app.use(handlesErrorMiddleware);
+
+
+/**
  * Internal Server Error Middleware:
  * Used to catch any errors that occur during the execution of route
  * handlers or other middleware. It's triggered by our existing controllers,
@@ -90,10 +98,11 @@ app.use('*', (req, res) => {
  * @param {Object} res - The Express response object.
  * @param {function} next - The next middleware function in the stack.
  */
-app.use((err, req, res, next) => {
-    console.log(err);
-    res.status(500).json({ msg: 'Internal server error' });
-});
+// app.use((err, req, res, next) => {
+//     console.log(err);
+//     res.status(500).json({ msg: 'something went wrong' });
+// });
+
 
 
 
