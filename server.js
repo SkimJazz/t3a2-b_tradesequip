@@ -3,11 +3,13 @@
  */
 
 // Library imports
+import 'express-async-errors';   // express-async-errors MUST BE AT TOP OF ALL OTHER IMPORTS!!!
 import * as dotenv from 'dotenv';
 dotenv.config();
 import express from 'express';
 const app = express();
 import morgan from 'morgan';
+import mongoose from 'mongoose';
 
 
 // ROUTER IMPORTS
@@ -24,8 +26,9 @@ import jobRouter from "./routes/jobRouter.js";
 // -------------------------- MIDDLEWARE --------------------------- //
 
 
-
 /**
+ * Morgan Logging Middleware:
+ *
  * @description Middleware for morgan logging wrapped in a condition to
  * only run in development environment. If this is === production, morgan
  * will not show the logs in the terminal
@@ -45,7 +48,7 @@ app.use(express.json());
 
 // GET request controller request, response
 app.get('/', (req, res) => {
-    res.send('Sup, world? ExpressJS is synced!');
+    res.send('ExpressJS is synced!');
 });
 
 app.post('/', (req, res) => {
@@ -61,10 +64,35 @@ app.use('/api/v0/jobs', jobRouter);
 // -------------------------- ERROR HANDLING ----------------------- //
 
 
-
-// Notfound middleware for routes that do not exist -> Must be after all routes
+/**
+ * Not Found Middleware:
+ * This middleware is used when no routes match the incoming request
+ * or rather when the request doesn't match anything in our server.
+ * It sends a 404 status code and a JSON response with a message 'not found'.
+ *
+ * @param {Object} req - The Express request object.
+ * @param {Object} res - The Express response object.
+ */
 app.use('*', (req, res) => {
-    res.status(404).json({ msg: 'not found' });
+    res.status(404).json({ msg: 'resource not found' });
+});
+
+
+/**
+ * Internal Server Error Middleware:
+ * Used to catch any errors that occur during the execution of route
+ * handlers or other middleware. It's triggered by our existing controllers,
+ * effectively showcasing an error upon a valid request when we try to
+ * implement the functionality.
+ *
+ * @param {Object} err - The error object.
+ * @param {Object} req - The Express request object.
+ * @param {Object} res - The Express response object.
+ * @param {function} next - The next middleware function in the stack.
+ */
+app.use((err, req, res, next) => {
+    console.log(err);
+    res.status(500).json({ msg: 'Internal server error' });
 });
 
 
@@ -72,22 +100,51 @@ app.use('*', (req, res) => {
 // -------------------------- SERVER CONNECTION --------------------- //
 
 
-
-// Error middleware for server errors -> Will be moved to a separate file later
-app.use((err, req, res, next) => {
-    console.log(err);
-    // This error middleware will get triggered if there is an error in any of the routes
-    res.status(500).json({ msg: 'something went wrong' });
-});
-
 // Ears on local port 3000 with port 4000 as backup
-// Access env variables in app
 const port = process.env.PORT || 4000;
 
-app.listen(port, () => {
-    console.log(`server running on PORT ${port}....`);
-});
 
-// app.listen(3000, () => {
-//     console.log('server running....');
+/**
+ * MongoDB Connection:
+ * Connecting to the MongoDB database and starting the server.
+ * Uses a try-catch block to handle any potential errors that might occur during
+ * these operations.
+ *
+ * @async
+ * @function
+ * @description Tries to establish a connection with the MongoDB database using
+ * the connection string from the environment variables. If the connection is
+ * successful, it starts the server on the specified port. If an error occurs
+ * during these operations, it logs the error and terminates the process with
+ * a failure status code (1).
+ */
+try {
+    // Attempt to connect to the MongoDB database
+    await mongoose.connect(process.env.MONGO_URL);
+    // If the connection is successful, start the server
+    app.listen(port, () => {
+        console.log(`server running on PORT ${port}....`);
+    });
+} catch (error) {
+    // If error occurs, log error and terminate process with a failure status code
+    console.log(error);
+    process.exit(1);
+}
+
+
+/**
+ * WARNING!! DIRECT Server conflict for the 'app.listen' function
+ *
+ * @throws {Error} This error can occur if the server is already running.
+ * The following 'app.listen' function is in direct conflict with the 'try-catch'
+ * block that starts the server (above code block) The 'try-catch' block starts
+ * the server if the connection to the MongoDB database is successful. If the
+ * server is already running, the 'app.listen' function will throw an error since
+ * the server is already running on the specified port.
+ *
+ * @param {number} port - The port number on which the server should
+ * listen.
+ */
+// app.listen(port, () => {
+//     console.log(`server running on PORT ${port}....`);
 // });

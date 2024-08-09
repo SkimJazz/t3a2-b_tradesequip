@@ -3,6 +3,7 @@ import {Router} from "express";
 // ES6 modules
 const router = Router();
 
+// Controller imports
 import {
     getMyJobs,
     getJobById,
@@ -10,6 +11,7 @@ import {
     updateJobById,
     deleteJobById,
 } from '../controllers/jobController.js';
+
 
 router
     .route('/')
