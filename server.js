@@ -12,8 +12,12 @@ import morgan from 'morgan';
 import mongoose from 'mongoose';
 
 
+// TEMP IMPORTS
+
+
 // ROUTER IMPORTS
 import jobRouter from "./routes/jobRouter.js";
+
 
 // PUBLIC IMPORTS
 
@@ -50,6 +54,8 @@ app.get('/', (req, res) => {
     res.send('ExpressJS is synced!');
 });
 
+
+// POST Route to Home Page
 app.post('/', (req, res) => {
     console.log(req);
     res.json({ message: 'Data received', data: req.body });
