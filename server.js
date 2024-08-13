@@ -10,6 +10,7 @@ import express from 'express';
 const app = express();
 import morgan from 'morgan';
 import mongoose from 'mongoose';
+import cookieParser from 'cookie-parser';
 
 
 // TEMP IMPORTS
@@ -17,6 +18,8 @@ import mongoose from 'mongoose';
 
 // ROUTER IMPORTS
 import jobRouter from "./routes/jobRouter.js";
+import authRouter from './routes/authRouter.js';
+import userRouter from './routes/userRouter.js';
 
 
 // PUBLIC IMPORTS
@@ -24,6 +27,7 @@ import jobRouter from "./routes/jobRouter.js";
 
 // MIDDLEWARE IMPORTS
 import handlesErrorMiddleware from './middleware/handlesErrorMiddleware.js';
+import { authenticateUser } from "./middleware/handlesAuthMiddleware.js";
 
 
 // -------------------------- MIDDLEWARE --------------------------- //
@@ -39,6 +43,9 @@ import handlesErrorMiddleware from './middleware/handlesErrorMiddleware.js';
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 }
+
+// Middleware for parsing cookies
+app.use(cookieParser());
 
 // Middleware for parsing JSON data
 app.use(express.json());
@@ -62,7 +69,9 @@ app.post('/', (req, res) => {
 });
 
 // Mounting jobRouter on the '/api/v0/jobs' route
-app.use('/api/v0/jobs', jobRouter);
+app.use('/api/v0/jobs', authenticateUser, jobRouter);
+app.use('/api/v0/users', authenticateUser, userRouter);
+app.use('/api/v0/auth', authRouter);
 
 
 
