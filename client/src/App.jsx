@@ -12,6 +12,11 @@ import {
     Admin,
 }  from './pages';
 
+// React Router action function imports
+import {reactRouterAction as signupAction} from './pages/Signup';
+// import {reactRouterLoader as ? } from -> ?
+
+
 
 // Check if user has dark theme set. Run when component mounts
 export const checkDefaultTheme = () => {
@@ -36,6 +41,14 @@ const router = createBrowserRouter([
             {
                 path: 'signup',
                 element: <Signup />,
+                action: signupAction,
+
+                // test action function
+                // action: () => {
+                //     // console.log('Signup link is successful');
+                //     //// MUST return null to prevent redirect error
+                //     // return null;
+                // },
             },
             {
                 path: 'login',
