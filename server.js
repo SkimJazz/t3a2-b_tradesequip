@@ -63,10 +63,18 @@ app.get('/', (req, res) => {
 
 
 // POST Route to Home Page
-app.post('/', (req, res) => {
-    console.log(req);
-    res.json({ message: 'Data received', data: req.body });
+// app.post('/', (req, res) => {
+//     console.log(req);
+//     res.json({ message: 'Data received', data: req.body });
+// });
+
+
+// Test Route for linking backend to frontend
+app.get('/api/v0/test', (req, res) => {
+    res.json({ msg: 'Proxy test route linking backend to frontend' });
 });
+
+
 
 // Mounting jobRouter on the '/api/v0/jobs' route
 app.use('/api/v0/jobs', authenticateUser, jobRouter);
