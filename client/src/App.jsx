@@ -12,9 +12,11 @@ import {
     Admin,
 }  from './pages';
 
+
 // React Router action function imports
 import {reactRouterAction as signupAction} from './pages/Signup';
-// import {reactRouterLoader as ? } from -> ?
+import {reactRouterAction as loginAction} from './pages/Login';
+import {reactRouterLoader as dashboardLoader } from './pages/DashboardLayout';
 
 
 
@@ -42,21 +44,16 @@ const router = createBrowserRouter([
                 path: 'signup',
                 element: <Signup />,
                 action: signupAction,
-
-                // test action function
-                // action: () => {
-                //     // console.log('Signup link is successful');
-                //     //// MUST return null to prevent redirect error
-                //     // return null;
-                // },
             },
             {
                 path: 'login',
                 element: <Login />,
+                action: loginAction,
             },
             {
                 path: 'dashboard',
                 element: <DashboardLayout />,
+                loader: dashboardLoader,
                 children: [
                     {
                         index: true, // userprofile API endpoint

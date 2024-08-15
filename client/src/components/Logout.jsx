@@ -14,7 +14,7 @@ const Logout = () => {
     const [showLogout, setShowLogout] = useState(false);
 
     // Destructuring the user and logoutUser from the useDashboardContext
-    const {user, logoutUser} = useDashboardContext();
+    const {user, userLogout} = useDashboardContext();
 
     return (
         <Wrapper>
@@ -36,7 +36,7 @@ const Logout = () => {
                 <button
                     type='button'
                     className='btn logout-btn'
-                    onClick={logoutUser}
+                    onClick={userLogout}
                 >
                     logout
                 </button>
