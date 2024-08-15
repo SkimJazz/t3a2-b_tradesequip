@@ -1,44 +1,66 @@
-import { Outlet } from 'react-router-dom';
+// External imports
+import { Outlet, redirect, useLoaderData, useNavigate } from 'react-router-dom';
+import { useState, createContext, useContext } from 'react';
+import customAxiosFetch from "../utils/axiosFetch.js";
+import {toast} from "react-toastify";
+
+// Local imports
 import Wrapper from '../assets/wrappers/Dashboard';
 import { SmallSidebar, LargeSidebar, Navbar } from '../components';
-import { useState, createContext, useContext } from 'react';
 import { checkDefaultTheme } from '../App';
 
 
-const DashboardContext = createContext();
 
+
+// Loader function for GET request to /users/current-user
+export const reactRouterLoader = async () => {
+    try {
+        const { data } = await customAxiosFetch.get('/users/current-user');
+        return data;
+    } catch (error) {
+        return redirect('/');
+    }
+};
+
+
+// Create a context for the DashboardLayout component
+const DashboardContext = createContext();
 
 const DashboardLayout = () => {
 
-    /**
-     * Temporary component sets up the DashboardContext.Provider
-     * using the following variables:
-     *
-     */
-    const user = { name: 'josh' };
+    // Custom hooks
+    const { user } = useLoaderData();   // current user data
+    const navigate = useNavigate();     // RRD hook passed as a prop
+
+    // State variables
     const [showSidebar, setShowSidebar] = useState(false);
     const [isDarkTheme, setIsDarkTheme] = useState(checkDefaultTheme());
-
 
     // GLOBAL Values - Placeholder functions for setting up the context provider
     const darkThemeToggle = () => {
         const newDarkTheme  = !isDarkTheme;
         setIsDarkTheme(newDarkTheme);
-
         // Vanilla JS to toggle the theme
         document.body.classList.toggle('dark-theme', newDarkTheme);
         // Vanilla JS to persist the theme value (save to local storage)
         localStorage.setItem('darkTheme', newDarkTheme);
     };
+
+    // User SIDEBAR TOGGLE
     const sidebarToggle = () => {
         setShowSidebar(!showSidebar);
     };
-    const UserLogout= async () => {
-        console.log('logout user');
+
+    // User LOGOUT
+    const userLogout = async () => {
+        await customAxiosFetch.get('/auth/logout');
+        toast.success('Logging out...', { autoClose: 1500 });
+        navigate('/');    // Redirect to landing page
     };
 
-    return (
 
+    return (
+        // Context variables and functions provided to child components
         <DashboardContext.Provider
             value={{
                 user,
@@ -46,7 +68,7 @@ const DashboardLayout = () => {
                 isDarkTheme,
                 darkThemeToggle,
                 sidebarToggle,
-                UserLogout,
+                userLogout,
             }}
         >
             <Wrapper>
@@ -56,7 +78,7 @@ const DashboardLayout = () => {
                     <div>
                         <Navbar />
                         <div className="dashboard-page">
-                            <Outlet />
+                            <Outlet context={{ user }}/>
                         </div>
                     </div>
                 </main>

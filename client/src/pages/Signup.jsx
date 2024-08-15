@@ -1,16 +1,17 @@
 // External imports
 import { useEffect, useState } from 'react';
 import { Form, Link, redirect, useNavigation } from 'react-router-dom';
+import {toast} from "react-toastify";
 
 // Local imports
 import Wrapper from "../assets/wrappers/RegoAndLoginPage.js";
 import main from '../assets/images/main.svg';
 import { Logo, FormRow } from '../components';
 import customAxiosFetch from "../utils/axiosFetch.js";
-import {toast} from "react-toastify";
 
 
 
+// React Router action function
 export const reactRouterAction = async ({request}) => {
     const formData = await request.formData();
     // console.log(formData);
@@ -22,16 +23,21 @@ export const reactRouterAction = async ({request}) => {
         // return null;
         toast.success('Signup successful', { autoClose: 1500 });
         return redirect('/login');
-    }   catch (error) {
+    } catch (error) {
         toast.error(error?.response?.data?.msg, { autoClose: 1500 });
         // console.log(error);
         return error;
     }
-}
+};
 
 
 
 const Signup = () => {
+
+    const navigation = useNavigation();
+    // console.log(navigation);
+    const isSubmitting = navigation.state === 'submitting';
+
 
     // Resize background image based on screen size
     const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 768);
@@ -42,12 +48,6 @@ const Signup = () => {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
-
-
-
-    const navigation = useNavigation();
-    console.log(navigation);
-    const isSubmitting = navigation.state === 'submitting';
 
 
     // Adding style to Wrapper component for background image is one method.
@@ -86,7 +86,7 @@ const Signup = () => {
                 </button>
                 <p>
                     Already have an account?
-                    <Link to="/login" className='account-btn'>Login</Link>
+                    <Link to='/login' className='account-btn'>Login</Link>
                 </p>
             </Form>
         </Wrapper>
