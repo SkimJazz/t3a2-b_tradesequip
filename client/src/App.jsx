@@ -17,6 +17,7 @@ import {
 import {reactRouterAction as signupAction} from './pages/Signup';
 import {reactRouterAction as loginAction} from './pages/Login';
 import {reactRouterLoader as dashboardLoader } from './pages/DashboardLayout';
+import {reactRouterAction as newJobAction } from './pages/NewJob';
 
 
 
@@ -62,6 +63,7 @@ const router = createBrowserRouter([
                     {
                         path: 'new-job' ,
                         element: <NewJob />,
+                        action: newJobAction,
                     },
                     {
                         path: 'my-jobs',
