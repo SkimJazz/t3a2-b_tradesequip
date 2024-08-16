@@ -322,15 +322,18 @@ button:disabled {
 
 /* BUTTONS AND BADGES */
 .pending {
-  background: #fef3c7;
-  color: #f59e0b;
+  background: #ffdb00;
+  color: #252525;
 }
-
-.interview {
-  background: #e0e8f9;
-  color: #647acb;
+.in-progress {
+  background: #3b77fb;
+  color: #ffffff;
 }
-.declined {
-  background: #ffeeee;
-  color: #d66a6a;
+.completed {
+  background: #6ad689;
+  color: #ffffff;
+}
+.cancelled {
+  background: #932323;
+  color: #ffffff;
 }
