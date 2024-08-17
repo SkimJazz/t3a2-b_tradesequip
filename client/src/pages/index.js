@@ -12,7 +12,7 @@ export { default as Admin } from './Admin';
 /* Job Management */
 export { default as NewJob } from './NewJob';
 export { default as MyJobs } from './MyJobs';
-// export { default as EditJob } from './EditJob';
+export { default as EditJob } from './EditJob';
 
 /* Client Management */
 // export { default as NewClient } from './NewClient';

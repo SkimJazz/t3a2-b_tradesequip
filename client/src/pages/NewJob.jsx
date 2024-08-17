@@ -19,7 +19,7 @@ export const reactRouterAction = async ({ request }) => {
     try {
         await customAxiosFetch.post('/jobs', data);
         toast.success('Job added successfully');
-        return redirect('/dashboard/my-jobs');
+        return redirect('../my-jobs');
     } catch (error) {
         toast.error(error?.response?.data?.msg, { autoClose: 1500, theme: 'colored' });
         return error;

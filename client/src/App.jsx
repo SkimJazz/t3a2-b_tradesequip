@@ -10,6 +10,7 @@ import {
     MyJobs,
     MyProfile,
     Admin,
+    EditJob,
 }  from './pages';
 
 
@@ -19,6 +20,9 @@ import {reactRouterAction as loginAction} from './pages/Login';
 import {reactRouterLoader as dashboardLoader } from './pages/DashboardLayout';
 import {reactRouterAction as newJobAction } from './pages/NewJob';
 import {reactRouterLoader as myJobsLoader } from './pages/MyJobs';
+import {reactRouterLoader as editJobLoader } from './pages/EditJob';
+import {reactRouterAction as editJobAction } from './pages/EditJob';
+import {reactRouterAction as deleteJobAction} from './pages/DeleteJob';
 
 
 
@@ -70,6 +74,16 @@ const router = createBrowserRouter([
                         path: 'my-jobs',
                         element: <MyJobs />,
                         loader: myJobsLoader,
+                    },
+                    {
+                        path: 'edit-job/:id',
+                        element: <EditJob />,
+                        loader: editJobLoader,
+                        action: editJobAction,
+                    },
+                    {
+                        path: 'delete-job/:id',
+                        action: deleteJobAction,
                     },
                     {
                         path: 'admin',
