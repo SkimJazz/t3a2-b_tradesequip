@@ -23,7 +23,7 @@ import {reactRouterLoader as myJobsLoader } from './pages/MyJobs';
 import {reactRouterLoader as editJobLoader } from './pages/EditJob';
 import {reactRouterAction as editJobAction } from './pages/EditJob';
 import {reactRouterAction as deleteJobAction} from './pages/DeleteJob';
-
+import {reactRouterAction as myProfileAction} from './pages/MyProfile';
 
 
 // Check if user has dark theme set. Run when component mounts
@@ -64,6 +64,7 @@ const router = createBrowserRouter([
                     {
                         index: true, // userprofile API endpoint
                         element: <MyProfile />,
+                        action: myProfileAction,
                     },
                     {
                         path: 'new-job' ,
