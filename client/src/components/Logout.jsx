@@ -23,6 +23,9 @@ const Logout = () => {
                 className='btn logout-btn'
                 onClick={() => setShowLogout(!showLogout)}
             >
+                {/* If the avatar is present, then use the avatar property.
+                    But if no avatar is present, then use the FaUserCircle icon
+                    in place of the avatar (users profile picture). */}
                 {user.avatar ? (
                     <img src={user.avatar} alt='avatar' className='img'/>
                 ) : (

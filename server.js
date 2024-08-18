@@ -11,6 +11,7 @@ const app = express();
 import morgan from 'morgan';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
+import cloudinary from 'cloudinary';
 
 
 // TEMP IMPORTS
@@ -23,14 +24,97 @@ import userRouter from './routes/userRouter.js';
 
 
 // PUBLIC IMPORTS
-
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import path from 'path';
 
 // MIDDLEWARE IMPORTS
 import handlesErrorMiddleware from './middleware/handlesErrorMiddleware.js';
 import { authenticateUser } from "./middleware/handlesAuthMiddleware.js";
 
 
+
+// -------------------------- CLOUDINARY CONFIG ---------------------- //
+
+/**
+ * Configures the Cloudinary service.
+ *
+ * Cloudinary was chosen as the image and video management solution for this
+ * project. First choice was Render.com, but Render does not support persistent
+ * image storage on the free web service.
+ *
+ * It is configured using three environment variables:
+ * - CLOUD_NAME: The name of your cloud as provided by Cloudinary.
+ * - CLOUD_API_KEY: The API key provided by Cloudinary for your account.
+ * - CLOUD_API_SECRET: The API secret key provided by Cloudinary for your account.
+ *
+ * Values should be stored in .env file (ref .env.example) for security and configuration
+ * management.
+ */
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.CLOUD_API_KEY,
+    api_secret: process.env.CLOUD_API_SECRET,
+});
+
+
+
+// -------------------------- GLOBAL VARIABLES ---------------------- //
+
+/**
+ * FOR ES6 Modules
+ *
+ * @description This line of code is used to get the directory name of the
+ * current module when using ES modules in Node.js. In Node.js, `__dirname`
+ * is a global variable that provides the directory path of the current
+ * module. However, this variable is not available when using ES modules.
+ *
+ * To get the directory name when using ES modules, Node.js provides the
+ * `import.meta.url` property. This property returns a URL string that
+ * represents the URL of the current module. The `fileURLToPath()` function
+ * from the 'url' module is used to convert this URL string into a file path
+ * string.
+ *
+ * Finally, the `dirname()` function from the 'path' module is used to get
+ * the directory name from this file path string. This directory name is
+ * equivalent to `__dirname` in a CommonJS module. So, this line of code
+ * essentially recreates the `__dirname` functionality for ES modules.
+ *
+ * @example Using __dirname with ES modules
+ * app.use(express.static(path.resolve(__dirname, './public')));
+ */
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+
+
 // -------------------------- MIDDLEWARE --------------------------- //
+
+
+/**
+ * Default Middleware from Express.js:
+ *
+ * @description This line of code is used to serve static files from the
+ * 'public' directory in an Express.js application. The `express.static`
+ * function is a built-in middleware function in Express.js for serving
+ * static files. It takes the path to the directory from which to serve
+ * static files as an argument.
+ *
+ * The `path.resolve(__dirname, './public')` is used to get the absolute
+ * path to the 'public' directory. The `__dirname` is a global variable in
+ * Node.js that gives the directory of the current module. So,
+ * `path.resolve(__dirname, './public')` gives the absolute path to the
+ * 'public' directory in the project.
+ *
+ * This line of code is related to the `__dirname` global variable as it uses
+ * `__dirname` to construct the path to the 'public' directory.
+ *
+ * @example Using __dirname to get the directory name of the current module
+ * const __dirname = dirname(fileURLToPath(import.meta.url));
+ */
+app.use(express.static(path.resolve(__dirname, './public')));
+// app.use(express.static(path.resolve(__dirname, './client/dist')));
+
+
 
 
 /**

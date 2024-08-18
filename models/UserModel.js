@@ -17,6 +17,9 @@ const UserSchema = new mongoose.Schema({
         enum: ['user', 'admin'],
         default: 'user',
     },
+    // Add avatar property to UserSchema
+    avatar: String,
+    avatarPublicId: String,
 });
 
 //Instance method to remove password from user object:

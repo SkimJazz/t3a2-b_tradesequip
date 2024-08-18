@@ -1,5 +1,7 @@
 // External imports
 import { StatusCodes } from 'http-status-codes';
+import cloudinary from 'cloudinary';
+import { promises as fs } from 'fs';    // File system module -> promises option
 
 
 // Local imports
@@ -22,18 +24,34 @@ export const getCurrentUser = async (req, res) => {
 // as passwords create by the user, nor any client information and job data.
 
 
-// ----------------------- Application Data ------------------------------- //
+// ----------------------------------------------------------------------- //
 
 
-
+// UPDATE CURRENT USERS PROFILE
 export const updateUserProfile = async (req, res) => {
     // console.log(req.file);
-
-    // TEMP: Remove password from the request body => No validation for password yet
     const updateUser = {...req.body};
     delete updateUser.password;
     // console.log(updateUser);
 
+    // Check BUT only if user is sending image file. Not when changing other fields
+    if (req.file) {
+        // Cloudinary version 2(v2) Node.js SDK being used -> last update April 22nd 2024
+        const response = await cloudinary.v2.uploader.upload(req.file.path);
+        // Delete image from local file system after uploading to Cloudinary
+        await fs.unlink(req.file.path);
+
+        // Add image to updateUser object
+        updateUser.avatar = response.secure_url;
+        // Add image public id to updateUser object
+        updateUser.avatarPublicId = response.public_id;
+    }
+
+    // Return the old instance of the document before the update
     const updatedProfile = await User.findByIdAndUpdate(req.user.userId, updateUser);
+    // If user is updating their profile image, check and delete the old image from Cloudinary
+    if (req.file && updatedProfile.avatarPublicId) {
+        await cloudinary.v2.uploader.destroy(updatedProfile.avatarPublicId);
+    }
     res.status(StatusCodes.OK).json({ msg: 'User Updated' });
 };
