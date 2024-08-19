@@ -1,5 +1,5 @@
 // Local imports
-import { UnauthenticatedError } from '../errors/customErrors.js';
+import {UnauthenticatedError, BadRequestError } from '../errors/customErrors.js';
 import {verifyJWT} from "../utils/tokenUtils.js";
 
 
@@ -10,13 +10,21 @@ export const authenticateUser = (req, res, next) => {
     if (!monster) {
         throw new UnauthenticatedError('authentication invalid');
     }
-
     try {
         const { userId, role } = verifyJWT(monster);
-        // const testUser = userId === '6673902fd8c5cf231e36d134'; , testUser
-        req.user = { userId, role };
+        const demoUser = userId === '66c1b6a2b9cfca4245338d63';     // demoUser
+        req.user = { userId, role, demoUser };
         next();
     } catch (error) {
         throw new UnauthenticatedError('authentication JWT is invalid');
     }
+};
+
+
+// Demo test user check
+export const checkForDemoUser = (req, res, next) => {
+    if (req.user.demoUser) {
+        throw new BadRequestError('Demo User. Read Only!');
+    }
+    next();
 };

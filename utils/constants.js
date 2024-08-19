@@ -3,7 +3,7 @@
 
 export const JOB_STATUS = {
     PENDING: 'pending',
-    IN_PROGRESS: 'in progress',
+    IN_PROGRESS: 'in-progress',
     COMPLETED: 'completed',
     CANCELLED: 'cancelled',
 };
