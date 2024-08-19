@@ -1,5 +1,6 @@
-// External imports and package dependencies
+// External imports
 import {Router} from "express";
+import { validateJobInput, validateIdParam } from '../middleware/handlesValidationLayer.js';
 
 // ES6 modules
 const router = Router();
@@ -12,22 +13,21 @@ import {
     updateJobById,
     deleteJobById,
 } from '../controllers/jobController.js';
-import {
-    validateJobInput,
-    validateIdParam,
-} from '../middleware/handlesValidationLayer.js';
+import {checkForDemoUser} from "../middleware/handlesAuthMiddleware.js";
 
+
+// ----------------------------- Job routes ---------------------------- //
 
 router
     .route('/')
     .get(getMyJobs)
-    .post(validateJobInput, createNewJob);
+    .post(checkForDemoUser, validateJobInput, createNewJob);
 
 router
     .route('/:id')
     .get(validateIdParam, getJobById)
-    .patch(validateJobInput, validateIdParam, updateJobById)
-    .delete(validateIdParam, deleteJobById);
+    .patch(checkForDemoUser, validateJobInput, validateIdParam, updateJobById)
+    .delete(checkForDemoUser, validateIdParam, deleteJobById);
 
 
 export default router;

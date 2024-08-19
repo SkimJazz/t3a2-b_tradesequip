@@ -1,6 +1,6 @@
 // External imports
 import { useEffect, useState } from 'react';
-import { Form, Link, redirect, useNavigation } from 'react-router-dom';
+import { Form, Link, redirect, useNavigation, useNavigate } from 'react-router-dom';
 import {toast} from "react-toastify";
 
 // Local imports
@@ -35,8 +35,26 @@ export const reactRouterAction = async ({request}) => {
 const Signup = () => {
 
     const navigation = useNavigation();
-    // console.log(navigation);
+    const navigate = useNavigate();
     const isSubmitting = navigation.state === 'submitting';
+
+    const demoUser = async () => {
+
+        const data = {
+            email: 'test@test.com',
+            password: 'secret123',
+        };
+
+        try {
+            // WARNING!! Demo user URL must be to the login, not signup route
+            await customAxiosFetch.post('/auth/login', data);
+            //
+            toast.success('Check out our demo', {autoClose: 1500});
+            navigate('/dashboard');
+        }   catch (error) {
+            toast.error(error?.response?.data?.msg);
+        }
+    };
 
 
     // Resize background image based on screen size
@@ -81,7 +99,7 @@ const Signup = () => {
                 {/*<SubmitBtn formBtn />*/}
 
                 <p> Or check out the Demo </p>
-                <button type='button' className='btn btn-block'>
+                <button type='button' className='btn btn-block' onClick={demoUser}>
                     Demo
                 </button>
                 <p>
