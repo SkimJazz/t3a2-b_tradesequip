@@ -101,14 +101,14 @@ export const validateIdParam = withValidationErrors([
         if (!job) throw new NotFoundError(`no job with id : ${value}`);
         // console.log(req, job);
 
-        // Check if user making request is an Admin
-        const isAdmin = req.user.role === 'admin';
+        // Check if user making request is an SuperUser
+        const isSuper = req.user.role === 'super';
 
         // Check if user is the creator of the job -> use .toString() to convert the ObjectId to a string
         // or createdBy will be false
         const isOwner = req.user.userId === job.createdBy.toString();
-        // If user is not an Admin and is not the Owner of the job
-        if (!isAdmin && !isOwner)
+        // If user is not an SuperUser and is not the Owner of the job
+        if (!isSuper && !isOwner)
             // This error message must be the same as the one in the withValidationErrors function
             // or it will not display the 403 Unauthorized error message
             throw new UnauthorizedError('not authorized to access this route');

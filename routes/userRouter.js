@@ -2,9 +2,9 @@
 import { Router } from 'express';
 
 // Local imports
-import { getCurrentUser, updateUserProfile } from '../controllers/userController.js';
+import { getCurrentUser, updateUserProfile, getApplicationStats } from '../controllers/userController.js';
 import { validateUpdateUserInput } from '../middleware/handlesValidationLayer.js';
-import { checkForDemoUser } from "../middleware/handlesAuthMiddleware.js";
+import {authorizePermissions, checkForDemoUser} from "../middleware/handlesAuthMiddleware.js";
 import upload from '../middleware/handlesMulterMiddleware.js';
 
 
@@ -17,9 +17,13 @@ router.get('/current-user',
 );
 
 
-// Add GET Admin route here
+// Application stats for Super dashboard
+router.get('/super/app-stats', [
+    authorizePermissions('super'),
+    getApplicationStats ]);
 
 
+// Update user profile
 router.patch('/update-user',
     checkForDemoUser,
     upload.single('avatar'),

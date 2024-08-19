@@ -7,7 +7,7 @@ export { default as Signup } from './Signup.jsx';
 export { default as Login } from './Login';
 export { default as Error } from './Error';
 export { default as MyProfile } from './MyProfile';
-export { default as Admin } from './Admin';
+export { default as Super } from './Super.jsx';
 
 /* Job Management */
 export { default as NewJob } from './NewJob';

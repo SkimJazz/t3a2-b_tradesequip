@@ -12,7 +12,7 @@ import {createJWT, verifyJWT} from '../utils/tokenUtils.js';
 export const signup = async (req, res) => {
 
     const isFirstAccount = (await User.countDocuments()) === 0;
-    req.body.role = isFirstAccount ? 'admin' : 'user';
+    req.body.role = isFirstAccount ? 'super' : 'user';
 
     const hashedPassword = await hashPassword(req.body.password);
     req.body.password = hashedPassword;
