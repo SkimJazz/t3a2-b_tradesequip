@@ -14,7 +14,7 @@ const UserSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['user', 'admin'],
+        enum: ['user', 'super'],
         default: 'user',
     },
     // Add avatar property to UserSchema

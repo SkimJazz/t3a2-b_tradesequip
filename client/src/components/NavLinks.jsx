@@ -11,9 +11,9 @@ const NavLinks = ({isLargeSidebar}) => {
         <div className='nav-links'>
             {links.map((link) => {
                 const {text, path, icon} = link;
-                // Admin.jsx: If the user is not an admin, hide the admin link
-                // const { role } = user;
-                // if (role !== 'admin' && path === 'admin') return;
+                // If the user is not an admin, hide the admin link
+                const { role } = user;
+                if (role !== 'super' && path === 'super') return;
 
                 return (
                     <NavLink

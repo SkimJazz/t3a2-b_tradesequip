@@ -1,7 +1,15 @@
 // Local imports
-import {UnauthenticatedError, BadRequestError } from '../errors/customErrors.js';
+import {UnauthenticatedError, BadRequestError, UnauthorizedError} from '../errors/customErrors.js';
 import {verifyJWT} from "../utils/tokenUtils.js";
 
+
+// Demo test user check
+export const checkForDemoUser = (req, res, next) => {
+    if (req.user.demoUser) {
+        throw new BadRequestError('Demo User. Read Only!');
+    }
+    next();
+};
 
 
 // async removed form this function -> added to the verifyJWT function
@@ -21,10 +29,13 @@ export const authenticateUser = (req, res, next) => {
 };
 
 
-// Demo test user check
-export const checkForDemoUser = (req, res, next) => {
-    if (req.user.demoUser) {
-        throw new BadRequestError('Demo User. Read Only!');
-    }
-    next();
+// Application Stats -> authorize users based on their role (Only Admin)
+export const authorizePermissions = (...roles) => {
+    return (req, res, next) => {
+        // console.log(roles);  // ['super']
+        if (!roles.includes(req.user.role)) {
+            throw new UnauthorizedError('Unauthorized to access this route');
+        }
+        next();
+    };
 };

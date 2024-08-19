@@ -9,7 +9,7 @@ import {
     NewJob,
     MyJobs,
     MyProfile,
-    Admin,
+    Super,
     EditJob,
 }  from './pages';
 
@@ -24,6 +24,8 @@ import {reactRouterLoader as editJobLoader } from './pages/EditJob';
 import {reactRouterAction as editJobAction } from './pages/EditJob';
 import {reactRouterAction as deleteJobAction} from './pages/DeleteJob';
 import {reactRouterAction as myProfileAction} from './pages/MyProfile';
+import {reactRouterLoader as superLoader} from './pages/Super';
+
 
 
 // Check if user has dark theme set. Run when component mounts
@@ -87,8 +89,9 @@ const router = createBrowserRouter([
                         action: deleteJobAction,
                     },
                     {
-                        path: 'admin',
-                        element: <Admin />,
+                        path: 'super',
+                        element: <Super />,
+                        loader: superLoader,
                     },
                 ],
             },

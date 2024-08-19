@@ -6,7 +6,7 @@ import { promises as fs } from 'fs';    // File system module -> promises option
 
 // Local imports
 import User from '../models/UserModel.js';
-// import Job from '../models/JobModel.js';
+import Job from '../models/JobModel.js';
 
 
 export const getCurrentUser = async (req, res) => {
@@ -15,16 +15,6 @@ export const getCurrentUser = async (req, res) => {
     res.status(StatusCodes.OK).json({ user: userWithoutPassword });
 };
 
-
-// ----------------------- Application Data ------------------------------- //
-
-// UNDECIDED if this route will be used in the application. However, if implemented
-// it will be an ADMIN ONLY route that will return the numbers of all Users, Jobs,
-// Clients in the application, but does not return any sensitive information such
-// as passwords create by the user, nor any client information and job data.
-
-
-// ----------------------------------------------------------------------- //
 
 
 // UPDATE CURRENT USERS PROFILE
@@ -54,4 +44,12 @@ export const updateUserProfile = async (req, res) => {
         await cloudinary.v2.uploader.destroy(updatedProfile.avatarPublicId);
     }
     res.status(StatusCodes.OK).json({ msg: 'User Updated' });
+};
+
+
+// GET JOB STATISTICS -> Admin only route
+export const getApplicationStats = async (req, res) => {
+    const users = await User.countDocuments();
+    const jobs = await Job.countDocuments();
+    res.status(StatusCodes.OK).json({ users, jobs });
 };
