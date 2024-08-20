@@ -22,3 +22,18 @@ export const JOB_TYPE = {
     SURVEYOR: 'surveyor',
     TILER: 'tiler',
 };
+
+/**
+ * JOB_SORT_BY object defines possible ways jobs can be sorted.
+ * @type {Object.<string, string>}
+ * @property {string} NEWEST_FIRST - sorting jobs by newest first.
+ * @property {string} OLDEST_FIRST - sorting jobs by oldest first.
+ * @property {string} ASCENDING - sorting jobs in ascending order (A-Z).
+ * @property {string} DESCENDING - sorting jobs in descending order (Z-A).
+ */
+export const JOB_SORT_BY = {
+    NEWEST_FIRST: 'newest',
+    OLDEST_FIRST: 'oldest',
+    ASCENDING: 'a-z',
+    DESCENDING: 'z-a',
+};

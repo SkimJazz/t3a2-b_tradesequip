@@ -12,11 +12,13 @@ import customAxiosFetch from "../utils/axiosFetch.js";
 
 
 export const reactRouterLoader = async ({ request }) => {
-
-    // Get back an object with the data property. Data property is an array of jobs(myJobs).
+    // console.log(request.url);
+    const params = Object.fromEntries([...new URL(request.url).searchParams.entries()]);
+    console.log(params);
     try {
-        const { data } = await customAxiosFetch.get('/jobs');
-        return { data }
+        // Use Axios to make a GET request to the server with the search 'params'
+        const { data } = await customAxiosFetch.get('/jobs', { params, });
+        return { data, searchValues: {...params }, }
     } catch (error) {
         toast.error(error?.response?.data?.msg, { autoClose: 1500, theme: 'colored'});
         return error;
@@ -27,11 +29,11 @@ export const reactRouterLoader = async ({ request }) => {
 const MyJobsContext = createContext();
 const MyJobs = () => {
 
-    const { data } = useLoaderData();
+    const { data, searchValues } = useLoaderData();
     // console.log(data);
 
     return (
-        <MyJobsContext.Provider value={{ data }}>
+        <MyJobsContext.Provider value={{ data, searchValues }}>
             <SearchContainer />
             <MyJobsContainer />
         </MyJobsContext.Provider>
