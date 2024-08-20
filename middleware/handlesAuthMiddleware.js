@@ -20,7 +20,25 @@ export const authenticateUser = (req, res, next) => {
     }
     try {
         const { userId, role } = verifyJWT(monster);
-        const demoUser = userId === '66c1b6a2b9cfca4245338d63';     // demoUser
+
+        /**
+         * Checks if the user is a demo user and sets the user information in
+         * the request object.
+         *
+         * @param {string} userId - The ID of the user from MongoDB.
+         * @param {string} role - The role of the user.
+         * @param {Object} req - The request object.
+         * @param {Object} res - The response object.
+         * @param {Function} next - The next middleware function.
+         *
+         * @throws {UnauthenticatedError} If the JWT is invalid.
+         *
+         * WARNING!!! As the demo user's ID is hardcoded in the check, the userId
+         * for demo user must be updated when purging the users database in MongoDB,
+         * or the demo user will get full access to CRUD functionalities for the
+         * `MyJobs` page.
+         */
+        const demoUser = userId === '66c4152c6c40da237b049413';  // MongoDB ID for the demo user
         req.user = { userId, role, demoUser };
         next();
     } catch (error) {
