@@ -10,10 +10,41 @@ import Job from '../models/JobModel.js';
 
 // GET ALL MY JOBS IN LIST
 export const getMyJobs = async (req, res) => {
-    // console.log(req.user);
-    const myJobs = await Job.find({ createdBy: req.user.userId });
+    // console.log(req.query);
+    const { search, jobStatus, jobType, sort } = req.query;
+    const queryObject = {
+        createdBy: req.user.userId,
+    };
+    if (search) {
+        queryObject.$or = [
+            { jobTitle: { $regex: search, $options: 'i' } },
+            { clientName: { $regex: search, $options: 'i' } },
+        ];
+    }
+    if (jobStatus && jobStatus !== 'all') {
+        queryObject.jobStatus = jobStatus;
+    }
+    if (jobType && jobType !== 'all') {
+        queryObject.jobType = jobType;
+    }
+
+    // ------------------ Sorting order of Jobs ------------------ //
+
+    const sortOptions = {
+        newest: '-createdAt',
+        oldest: 'createdAt',
+        'a-z': 'jobTitle',
+        'z-a': '-jobTitle',
+    };
+    const sortKey = sortOptions[sort] || sortOptions.newest;
+
+    const myJobs = await Job.find(queryObject)
+        .sort(sortKey);
+
     res.status(StatusCodes.OK).json({ myJobs });
 };
+
+
 
 
 // GET JOB BY ID

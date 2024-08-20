@@ -29,8 +29,7 @@ const FormSelection = ({ name, labelText, list, defaultValue = ' ', onChange }) 
                 id={name}
                 className='form-select'
                 defaultValue={defaultValue}
-                // onChange event handler for select dropdown
-                onChange={onChange}
+                onChange={onChange} // onChange event handler for select dropdown
             >
                 {list.map((itemValue) => {
                     return (

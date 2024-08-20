@@ -1,4 +1,4 @@
-const FormRow = ({ type, name, labelText, defaultValue = '', hideLabel = false }) => {
+const FormRow = ({ type, name, labelText, defaultValue, onChange = '', hideLabel = false }) => {
     return (
         <div className="form-row">
             {!hideLabel && <label htmlFor={name} className='form-label'>
@@ -11,6 +11,7 @@ const FormRow = ({ type, name, labelText, defaultValue = '', hideLabel = false }
                 className='form-input'
                 defaultValue={defaultValue}
                 placeholder={labelText || name} // Added placeholder attribute
+                onChange={onChange} // onChange event handler react-router-dom thing
                 required
             />
         </div>
