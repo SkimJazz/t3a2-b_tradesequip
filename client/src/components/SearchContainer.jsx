@@ -18,12 +18,14 @@ const SearchContainer = () => {
     // ---------------------- Controlled input ---------------------- //
 
     /**
-     * Yes!, this is a function that returns a function. This is a common pattern
-     * in JavaScript to create a closure around the timeout variable.
+     * JS Nugget: Debounce function in JavaScript
      *
-     * Debounce function (Vanilla JS) to run onChange event handler after 2000ms
-     * after the last keystroke. This will prevent the onChange event handler from
-     * running too fast and too often. This give the user time to finish typing.
+     * Yes!, this is a function that returns a function. A common pattern in
+     * JavaScript to create a closure around the timeout variable.
+     *
+     * Debounce function (Vanilla JS) to run onChange event handler 2000ms after
+     * the last keystroke. This will prevent the onChange event handler from
+     * running too fast and too often and give the user time to finish typing.
      *
      * @param {Function} onChange - The function to be debounced.
      * @returns {Function} - A debounced function that delays invoking onChange.
