@@ -1,6 +1,6 @@
 // External imports
 import {Router} from "express";
-import { validateJobInput, validateIdParam } from '../middleware/handlesValidationLayer.js';
+import { validateJobInput, validateJobIdParam } from '../middleware/handlesValidationLayer.js';
 
 // ES6 modules
 const router = Router();
@@ -25,9 +25,9 @@ router
 
 router
     .route('/:id')
-    .get(validateIdParam, getJobById)
-    .patch(checkForDemoUser, validateJobInput, validateIdParam, updateJobById)
-    .delete(checkForDemoUser, validateIdParam, deleteJobById);
+    .get(validateJobIdParam, getJobById)
+    .patch(checkForDemoUser, validateJobInput, validateJobIdParam, updateJobById)
+    .delete(checkForDemoUser, validateJobIdParam, deleteJobById);
 
 
 export default router;

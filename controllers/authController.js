@@ -72,7 +72,7 @@ export const logout = async (req, res) => {
     res.cookie('monster', 'logout', {
         httpOnly: true,
         expires: new Date(Date.now()),
-        // secure: process.env.NODE_ENV === 'production',
+        secure: process.env.NODE_ENV === 'production',
     });
     res.status(StatusCodes.OK).json({ msg: `You are now logged out ${user.name}` });
 }

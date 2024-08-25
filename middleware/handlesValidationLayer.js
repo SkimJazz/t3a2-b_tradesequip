@@ -11,18 +11,31 @@ import {BadRequestError, NotFoundError, UnauthorizedError} from '../errors/custo
 import {JOB_STATUS, JOB_TYPE } from "../utils/constants.js";
 import Job from '../models/JobModel.js';
 import User from '../models/UserModel.js';
+import Client from '../models/ClientModel.js';
 
 
 const withValidationErrors = (validateValues) => {
     return [
         validateValues,
         (req, res, next) => {
+            /**
+             * validationResult(req)
+             *
+             * validationResult(req) is a function provided by express-validator
+             * that takes the incoming request object req as an argument. It checks
+             * the request for any validation errors that were defined earlier in
+             * the middleware chain.
+             */
             const errors = validationResult(req);
+            // console.log(errors);
             if (!errors.isEmpty()) {
                 const errorMessages = errors.array().map((error) => error.msg);
 
                 // 404 Not Found Error StatusCode. Ref validateIdParam function
                 if (errorMessages[0].startsWith('no job')) {
+                    throw new NotFoundError(errorMessages);
+                }
+                if (errorMessages[0].startsWith('no client')) {
                     throw new NotFoundError(errorMessages);
                 }
                 if (errorMessages[0].startsWith('not authorized')) {
@@ -35,7 +48,10 @@ const withValidationErrors = (validateValues) => {
     ];
 };
 
-// Exported to jobRouter.js file
+
+// ---------------------------- JOB VALIDATION LAYER ---------------------------- //
+
+
 export const validateJobInput = withValidationErrors([
     body('clientName')
         .notEmpty()
@@ -56,42 +72,7 @@ export const validateJobInput = withValidationErrors([
 ]);
 
 
-/**
- * Middleware to validate the 'id' parameter in the request URL.
- *
- * This middleware ensures that the 'id' parameter is a valid MongoDB ObjectId
- * and that a job with the given 'id' exists in the database before the request
- * is processed by the controller functions.
- *
- * @param {Array} validateValues - Array of validation rules.
- * @returns {Array} - Array containing the validation rules and an error-handling
- * middleware.
- *
- *
- * WARNING!! Cast to ObjectId failed:
- * Cast to ObjectId failed for value "random id number" at path "_id" for model "Job"
- * This error occurs when the 'id' parameter is not a valid MongoDB ObjectId. Say if
- * the id is not the correct length of characters.
- * This error is thrown by Mongoose when it tries to cast the 'id' parameter to an
- * ObjectId. A 500 Internal Server Error is returned to the client saying the following
- * message:
- *
- * "Cast to ObjectId failed for value \"66b816cdf6ca98d48c04250\" (type string) at path \"_id\" for model \"Job\""
- *
- * To stop this error from being thrown, we need to add the 'validateIdParam' parameter
- * to the route handler in the jobRouter.js file.
- *
- * @example
- * // jobRouter.js
- * router
- *    .route('/:id')
- *    .get(validateIdParam, getJobById) => validateIdParam is added here
- *    .patch(validateJobInput, validateIdParam, updateJobById) => validateIdParam is added here
- *    .delete(validateIdParam, deleteJobById); => validateIdParam is added here
- *
- *
- */
-export const validateIdParam = withValidationErrors([
+export const validateJobIdParam = withValidationErrors([
     param('id').custom(async(value, { req }) => {
 
         const isValidIdMongoId = mongoose.Types.ObjectId.isValid(value);
@@ -104,18 +85,53 @@ export const validateIdParam = withValidationErrors([
         // Check if user making request is an SuperUser
         const isSuper = req.user.role === 'super';
 
-        // Check if user is the creator of the job -> use .toString() to convert the ObjectId to a string
+        // Check if user is creator of job -> use .toString() to convert ObjectId to string
         // or createdBy will be false
         const isOwner = req.user.userId === job.createdBy.toString();
         // If user is not an SuperUser and is not the Owner of the job
         if (!isSuper && !isOwner)
-            // This error message must be the same as the one in the withValidationErrors function
+            // This error message must be same as one in withValidationErrors function
             // or it will not display the 403 Unauthorized error message
             throw new UnauthorizedError('not authorized to access this route');
 
     }),
 ]);
 
+
+// ---------------------------- CLIENT VALIDATION LAYER ---------------------------- //
+
+
+export const validateClientInput = withValidationErrors([
+    // body('clientCompName')
+    //     .notEmpty()
+    //     .withMessage('client company name is required'),
+    // body('clientAddress')
+    //     .notEmpty()
+    //     .withMessage('client address is required'),
+    body('projectContact')
+        .notEmpty()
+        .withMessage('project contact is required'),
+]);
+
+
+export const validateClientIdParam = withValidationErrors([
+    param('id').custom(async (value, { req }) => {
+
+        const isValidIdMongoId = mongoose.Types.ObjectId.isValid(value);
+        if (!isValidIdMongoId) throw new BadRequestError('invalid MongoDB client id');
+
+        const client = await Client.findById(value);
+        if (!client) throw new NotFoundError(`no client with id : ${value} found`);
+
+        const isSuper = req.user.role === 'super';
+        const isOwner = req.user.userId === client.createdBy.toString();
+        if (!isSuper && !isOwner)
+            throw new UnauthorizedError('not authorized to access this route');
+    }),
+]);
+
+
+// ---------------------------- USER VALIDATION LAYER ---------------------------- //
 
 
 export const validateSignupInput = withValidationErrors([
@@ -133,7 +149,6 @@ export const validateSignupInput = withValidationErrors([
                 throw new BadRequestError('email already exists');
             }
         }),
-
     body('password')
         .notEmpty()
         .withMessage('password is required')
@@ -154,7 +169,6 @@ export const validateLoginInput = withValidationErrors([
         .withMessage('email is required')
         .isEmail()
         .withMessage('invalid email format'),
-
     body('password')
         .notEmpty()
         .withMessage('password is required'),

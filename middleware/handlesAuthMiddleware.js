@@ -14,6 +14,7 @@ export const checkForDemoUser = (req, res, next) => {
 
 // async removed form this function -> added to the verifyJWT function
 export const authenticateUser = (req, res, next) => {
+    // console.log(req.cookies);
     const { monster } = req.cookies;
     if (!monster) {
         throw new UnauthenticatedError('authentication invalid');
