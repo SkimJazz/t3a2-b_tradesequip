@@ -7,6 +7,7 @@ import { promises as fs } from 'fs';    // File system module -> promises option
 // Local imports
 import User from '../models/UserModel.js';
 import Job from '../models/JobModel.js';
+import Client from '../models/ClientModel.js';
 
 
 export const getCurrentUser = async (req, res) => {
@@ -51,5 +52,6 @@ export const updateUserProfile = async (req, res) => {
 export const getApplicationStats = async (req, res) => {
     const users = await User.countDocuments();
     const jobs = await Job.countDocuments();
-    res.status(StatusCodes.OK).json({ users, jobs });
+    const clients = await Client.countDocuments();
+    res.status(StatusCodes.OK).json({ users, jobs, clients });
 };

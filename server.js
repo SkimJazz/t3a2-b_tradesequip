@@ -21,6 +21,7 @@ import cloudinary from 'cloudinary';
 import jobRouter from "./routes/jobRouter.js";
 import authRouter from './routes/authRouter.js';
 import userRouter from './routes/userRouter.js';
+import clientRouter from './routes/clientRouter.js';
 
 
 // PUBLIC IMPORTS
@@ -154,9 +155,9 @@ app.get('/', (req, res) => {
 
 
 // Test Route for linking backend to frontend
-app.get('/api/v0/test', (req, res) => {
-    res.json({ msg: 'Proxy test route linking backend to frontend' });
-});
+// app.get('/api/v0/test', (req, res) => {
+//     res.json({ msg: 'Proxy test route linking backend to frontend' });
+// });
 
 
 
@@ -164,7 +165,7 @@ app.get('/api/v0/test', (req, res) => {
 app.use('/api/v0/jobs', authenticateUser, jobRouter);
 app.use('/api/v0/users', authenticateUser, userRouter);
 app.use('/api/v0/auth', authRouter);
-
+app.use('/api/v0/clients', authenticateUser, clientRouter);
 
 
 // -------------------------- ERROR HANDLING ----------------------- //
