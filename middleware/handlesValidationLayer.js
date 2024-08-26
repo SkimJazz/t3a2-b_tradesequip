@@ -82,16 +82,36 @@ export const validateJobIdParam = withValidationErrors([
         if (!job) throw new NotFoundError(`no job with id : ${value}`);
         // console.log(req, job);
 
-        // Check if user making request is an SuperUser
-        const isSuper = req.user.role === 'super';
+        /**
+         * ---------------------------- ISSUES WITH THIS CODE ----------------------------
+         * Unexpected behavior: This code block should be checking if the user is a super(admin)
+         * or an owner(user) of the job before allowing access to the route. But it is not working
+         * as expected. It allows access to the route even if the user is not the owner of the job.
+         *
+         * Example: if the user is a super(admin) and the job was created by another user, the super
+         * can still access the route. This is not the expected behavior. The code block below is a
+         * workaround to fix this issue. It checks if the user is the owner of the job and if not,
+         * it throws an UnauthorizedError. This is the expected behavior. In addition, the Client
+         * validation layer also uses the workaround code block. @Ref: validateClientIdParam
+         *
+         * @constant {boolean} "isSuper" - Indicates if the user has the 'super' role.
+         * @constant {boolean} isOwner - Indicates if the user is the owner of the job.
+         *
+         * @throws {UnauthorizedError} If the user is neither a super nor the owner of the job.
+         */
+        // const isSuper = req.user.role === 'super';
+        // const isOwner = req.user.userId === job.createdBy.toString();
+        // if (!isSuper && !isOwner)
+        //     throw new UnauthorizedError('not authorized to access this route');
 
-        // Check if user is creator of job -> use .toString() to convert ObjectId to string
-        // or createdBy will be false
-        const isOwner = req.user.userId === job.createdBy.toString();
-        // If user is not an SuperUser and is not the Owner of the job
-        if (!isSuper && !isOwner)
-            // This error message must be same as one in withValidationErrors function
-            // or it will not display the 403 Unauthorized error message
+
+        // ------------------------------ WORK AROUND --------------------------------- //
+        // This code block checks if the user is the owner of the job regardless of the
+        // user's role (super or user). If the user is not the owner of the job, it throws
+        // an UnauthorizedError. This is the expected behavior.
+
+        const whoIsJobOwner = req.user.userId === job.createdBy.toString();
+        if (!whoIsJobOwner)
             throw new UnauthorizedError('not authorized to access this route');
 
     }),
@@ -123,9 +143,19 @@ export const validateClientIdParam = withValidationErrors([
         const client = await Client.findById(value);
         if (!client) throw new NotFoundError(`no client with id : ${value} found`);
 
-        const isSuper = req.user.role === 'super';
-        const isOwner = req.user.userId === client.createdBy.toString();
-        if (!isSuper && !isOwner)
+
+        // ---------------------------- ISSUES WITH THIS CODE ---------------------------- //
+
+        // const isSuper = req.user.role === 'super';
+        // const isOwner = req.user.userId === client.createdBy.toString();
+        // if (!isSuper && !isOwner)
+        //     throw new UnauthorizedError('not authorized to access this route');
+
+
+        // -------------------------------- WORK AROUND --------------------------------- //
+
+        const whoIsClientOwner = req.user.userId === client.createdBy.toString();
+        if (!whoIsClientOwner)
             throw new UnauthorizedError('not authorized to access this route');
     }),
 ]);
