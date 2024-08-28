@@ -83,21 +83,22 @@ export const validateJobIdParam = withValidationErrors([
         // console.log(req, job);
 
         /**
-         * ---------------------------- ISSUES WITH THIS CODE ----------------------------
-         * Unexpected behavior: This code block should be checking if the user is a super(admin)
-         * or an owner(user) of the job before allowing access to the route. But it is not working
-         * as expected. It allows access to the route even if the user is not the owner of the job.
+         * SUPER ACCESS TO ALL ACCOUNT JOBS IN THE DATABASE: Implementation 1
+         * ---------------------------------------------------------------------------------
+         * The code block below checks if the user is a super(admin) or an owner(user) of the
+         * job before allowing access to the route. If the user is neither a super nor the
+         * owner of the job, it throws an UnauthorizedError. This is the expected behavior.
          *
-         * Example: if the user is a super(admin) and the job was created by another user, the super
-         * can still access the route. This is not the expected behavior. The code block below is a
-         * workaround to fix this issue. It checks if the user is the owner of the job and if not,
-         * it throws an UnauthorizedError. This is the expected behavior. In addition, the Client
-         * validation layer also uses the workaround code block. @Ref: validateClientIdParam
+         * The super holds the highest level of access in the application. They can access all
+         * accounts in the database. The owner of the job is the user who created the job. They
+         * can access only their job account. The code block below ensures that only the super
+         * or the owner of the job can access the route.
          *
+         * @type {boolean}
          * @constant {boolean} "isSuper" - Indicates if the user has the 'super' role.
          * @constant {boolean} isOwner - Indicates if the user is the owner of the job.
-         *
          * @throws {UnauthorizedError} If the user is neither a super nor the owner of the job.
+         * ---------------------------------------------------------------------------------
          */
         // const isSuper = req.user.role === 'super';
         // const isOwner = req.user.userId === job.createdBy.toString();
@@ -105,15 +106,21 @@ export const validateJobIdParam = withValidationErrors([
         //     throw new UnauthorizedError('not authorized to access this route');
 
 
-        // ------------------------------ WORK AROUND --------------------------------- //
-        // This code block checks if the user is the owner of the job regardless of the
-        // user's role (super or user). If the user is not the owner of the job, it throws
-        // an UnauthorizedError. This is the expected behavior.
-
+        /**
+         * ONLY OWNER ACCESS TO CLIENT ACCOUNT: Implementation 2 (Preferred)
+         * ---------------------------------------------------------------------------------
+         * This code block checks if the user is the owner of the job regardless of the
+         * user's role (super or user). If the user is not the owner of the job, it throws
+         * an UnauthorizedError. This is the expected behavior.
+         *
+         * @constant {boolean} whoIsJobOwner - Indicates if the user is the owner of the job.
+         * @throws {UnauthorizedError} If the user is not the owner of the job.
+         * ---------------------------------------------------------------------------------
+         * */
         const whoIsJobOwner = req.user.userId === job.createdBy.toString();
         if (!whoIsJobOwner)
+            // Triggered if user is not owner of job. However, this indicates that the ID is valid
             throw new UnauthorizedError('not authorized to access this route');
-
     }),
 ]);
 
@@ -144,18 +151,44 @@ export const validateClientIdParam = withValidationErrors([
         if (!client) throw new NotFoundError(`no client with id : ${value} found`);
 
 
-        // ---------------------------- ISSUES WITH THIS CODE ---------------------------- //
-
+        /**
+         * SUPER ACCESS TO ALL ACCOUNT CLIENTS IN THE DATABASE: Implementation 1
+         * ---------------------------------------------------------------------------------
+         * The code block below checks if the user is a super(admin) or an owner(user) of the
+         * client before allowing access to the route. If the user is neither a super nor the
+         * owner of the client, it throws an UnauthorizedError. This is the expected behavior.
+         *
+         * The super holds the highest level of access in the application. They can access all
+         * accounts in the database. The owner of the client is the user who created the client.
+         * They can access only their client account. The code block below ensures that only
+         * the super or the owner of the client can access the route.
+         *
+         * @type {boolean}
+         * @constant {boolean} "isSuper" - Indicates if the user has the 'super' role.
+         * @constant {boolean} isOwner - Indicates if the user is the owner of the client.
+         * @throws {UnauthorizedError} If the user is neither a super nor the owner of the client.
+         * ---------------------------------------------------------------------------------
+         */
         // const isSuper = req.user.role === 'super';
         // const isOwner = req.user.userId === client.createdBy.toString();
         // if (!isSuper && !isOwner)
         //     throw new UnauthorizedError('not authorized to access this route');
 
 
-        // -------------------------------- WORK AROUND --------------------------------- //
-
+        /**
+         * ONLY OWNER ACCESS TO CLIENT ACCOUNT: Implementation 2 (Preferred)
+         * ---------------------------------------------------------------------------------
+         * This code block checks if the user is the owner of the client regardless of the
+         * user's role (super or user). If the user is not the owner of the client, it throws
+         * an UnauthorizedError, even if the user is a super. This is the expected behavior.
+         *
+         * @constant {boolean} whoIsClientOwner - Indicates if the user is the owner of the client.
+         * @throws {UnauthorizedError} If the user is not the owner of the client.
+         * ---------------------------------------------------------------------------------
+         */
         const whoIsClientOwner = req.user.userId === client.createdBy.toString();
         if (!whoIsClientOwner)
+            // Ref: validateIdParam function for UnauthorizedError
             throw new UnauthorizedError('not authorized to access this route');
     }),
 ]);
