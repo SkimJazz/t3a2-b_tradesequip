@@ -8,9 +8,12 @@ import {
     Error,
     NewJob,
     MyJobs,
+    NewClient,
+    MyClients,
     MyProfile,
     Super,
     EditJob,
+    EditClient,
 }  from './pages';
 
 
@@ -20,9 +23,14 @@ import {reactRouterAction as loginAction} from './pages/Login';
 import {reactRouterLoader as dashboardLoader } from './pages/DashboardLayout';
 import {reactRouterAction as newJobAction } from './pages/NewJob';
 import {reactRouterLoader as myJobsLoader } from './pages/MyJobs';
+import {reactRouterAction as newClientAction } from './pages/NewClient';
+import {reactRouterLoader as myClientsLoader } from './pages/MyClients';
 import {reactRouterLoader as editJobLoader } from './pages/EditJob';
 import {reactRouterAction as editJobAction } from './pages/EditJob';
+import {reactRouterLoader as editClientLoader } from './pages/EditClient';
+import {reactRouterAction as editClientAction } from './pages/EditClient';
 import {reactRouterAction as deleteJobAction} from './pages/DeleteJob';
+import {reactRouterAction as deleteClientAction} from './pages/DeleteClient';
 import {reactRouterAction as myProfileAction} from './pages/MyProfile';
 import {reactRouterLoader as superLoader} from './pages/Super';
 
@@ -79,6 +87,16 @@ const router = createBrowserRouter([
                         loader: myJobsLoader,
                     },
                     {
+                        path: 'new-client',
+                        element: <NewClient />,
+                        action: newClientAction,
+                    },
+                    {
+                        path: 'my-clients',
+                        element: <MyClients />,
+                        loader: myClientsLoader,
+                    },
+                    {
                         path: 'edit-job/:id',
                         element: <EditJob />,
                         loader: editJobLoader,
@@ -87,6 +105,16 @@ const router = createBrowserRouter([
                     {
                         path: 'delete-job/:id',
                         action: deleteJobAction,
+                    },
+                    {
+                        path: 'edit-client/:id',
+                        element: <EditClient />,
+                        loader: editClientLoader,
+                        action: editClientAction,
+                    },
+                    {
+                        path: 'delete-client/:id',
+                        action: deleteClientAction,
                     },
                     {
                         path: 'super',

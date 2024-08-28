@@ -15,9 +15,9 @@ export { default as MyJobs } from './MyJobs';
 export { default as EditJob } from './EditJob';
 
 /* Client Management */
-// export { default as NewClient } from './NewClient';
-// export { default as MyClients } from './MyClients';
-// export { default as EditClient } from './EditClient';
+export { default as NewClient } from './NewClient';
+export { default as MyClients } from './MyClients';
+export { default as EditClient } from './EditClient';
 
 /* Scheduling Management */
 // export { default as NewSchedule } from './NewSchedule';

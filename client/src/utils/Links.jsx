@@ -11,6 +11,8 @@ const links = [
     { text: 'my profile', path: '.', icon: <ImProfile /> },
     { text: 'new job', path: 'new-job', icon: <FaWpforms /> },
     { text: 'my jobs', path: 'my-jobs', icon: <MdQueryStats /> },
+    { text: 'new client', path: 'new-client', icon: <FaWpforms /> },
+    { text: 'my clients', path: 'my-clients', icon: <MdQueryStats /> },
     { text: 'super', path: 'super', icon: <MdAdminPanelSettings /> },
     // my clients
     // new schedule

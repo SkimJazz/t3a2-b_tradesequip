@@ -13,6 +13,7 @@ import {
     updateClientById,
     deleteClientById,
 } from '../controllers/clientController.js';
+import {checkForDemoUser} from "../middleware/handlesAuthMiddleware.js";
 
 
 /**
@@ -29,13 +30,13 @@ import {
 router
     .route('/')
     .get(getMyClients)
-    .post(validateClientInput , createNewClient);
+    .post(checkForDemoUser, validateClientInput , createNewClient);
 
 router
     .route('/:id')
     .get(validateClientIdParam, getClientById)
-    .patch(validateClientInput , validateClientIdParam, updateClientById)
-    .delete(validateClientIdParam, deleteClientById);
+    .patch(checkForDemoUser, validateClientInput , validateClientIdParam, updateClientById)
+    .delete(checkForDemoUser, validateClientIdParam, deleteClientById);
 
 
 export default router;

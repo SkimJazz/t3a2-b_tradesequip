@@ -39,7 +39,7 @@ export const authenticateUser = (req, res, next) => {
          * or the demo user will get full access to CRUD functionalities for the
          * `MyJobs` page.
          */
-        const demoUser = userId === '66c4152c6c40da237b049413';  // MongoDB ID for the demo user
+        const demoUser = userId === '66cf09db1dbf4d46fad1c1bf';  // MongoDB ID for the demo user
         req.user = { userId, role, demoUser };
         next();
     } catch (error) {

@@ -5,6 +5,7 @@ export { default as SmallSidebar } from './SmallSidebar';
 export { default as Navbar } from './Navbar';
 export { default as FormSelection } from './FormSelection';
 export { default as MyJobsContainer } from './MyJobsContainer';
+export { default as MyClientsContainer } from './MyClientsContainer';
 export { default as SearchContainer } from './SearchContainer';
 export { default as StatsItem } from './StatsItem.jsx';
 // export { default as SubmitBtn } from './SubmitBtn.jsx';

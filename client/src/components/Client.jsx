@@ -15,7 +15,8 @@ day.extend(advancedFormat);
 
 const Client = ({
                  _id,
-                 clientNoJobAssigned,
+                 // clientNoJobAssigned,
+                 clientCompName,
                  clientAddress,
                  projectContact,
                  createdAt,
@@ -29,9 +30,9 @@ const Client = ({
     return (
         <Wrapper>
             <header>
-                <div className='main-icon'>{clientNoJobAssigned.charAt(0)}</div>
+                <div className='main-icon'>{clientCompName.charAt(0)}</div>
                 <div className='info'>
-                    <h5>{clientNoJobAssigned}</h5>
+                    <h5>{clientCompName}</h5>
                     <p>{projectContact}</p>
                 </div>
             </header>
