@@ -79,7 +79,7 @@ export const validateJobIdParam = withValidationErrors([
         if (!isValidIdMongoId) throw new BadRequestError('invalid MongoDB id');
 
         const job = await Job.findById(value);
-        if (!job) throw new NotFoundError(`no job with id : ${value}`);
+        if (!job) throw new NotFoundError(`no job with id : ${value} found`);
         // console.log(req, job);
 
         /**
@@ -122,12 +122,12 @@ export const validateJobIdParam = withValidationErrors([
 
 
 export const validateClientInput = withValidationErrors([
-    // body('clientCompName')
-    //     .notEmpty()
-    //     .withMessage('client company name is required'),
-    // body('clientAddress')
-    //     .notEmpty()
-    //     .withMessage('client address is required'),
+    body('clientCompName')
+        .notEmpty()
+        .withMessage('client company name is required'),
+    body('clientAddress')
+        .notEmpty()
+        .withMessage('client address is required'),
     body('projectContact')
         .notEmpty()
         .withMessage('project contact is required'),
