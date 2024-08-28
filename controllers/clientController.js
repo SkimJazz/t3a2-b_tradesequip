@@ -30,11 +30,8 @@ export const getMyClients = async (req, res) => {
 
 // GET CLIENT BY ID
 export const getClientById = async (req, res) => {
-    const { id } = req.params;
+    const { id } = req.params;  // Destructure id from req.params object
     const client = await Client.findById(id);
-    if (!client) {
-        return res.status(404).json({ msg: `no client with id ${id}` });
-    }
     res.status(StatusCodes.OK).json({ client });
 };
 
@@ -49,23 +46,17 @@ export const createNewClient = async (req, res) => {
 
 // UPDATE CLIENT BY ID
 export const updateClientById= async (req, res) => {
-    const { id } = req.params;
+    const { id } = req.params;  // Destructure id from req.params object
     const updateClient = await Client.findByIdAndUpdate(id, req.body, {
         new: true,
     });
-    if (!updateClient) {
-        return res.status(404).json({ msg: `no client with id ${id}` });
-    }
     res.status(StatusCodes.OK).json({ msg: 'client details have been modified' , client: updateClient });
 };
 
 
 // DELETE CLIENT BY ID
 export const deleteClientById = async (req, res) => {
-    const { id } = req.params;
+    const { id } = req.params;  // Destructure id from req.params object
     const removeClient = await Client.findByIdAndDelete(id);
-    if (!removeClient) {
-        return res.status(404).json({ msg: `no client with id ${id}` });
-    }
     res.status(StatusCodes.OK).json({ msg: 'client deleted', client: removeClient });
 };
