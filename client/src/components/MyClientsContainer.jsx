@@ -19,7 +19,7 @@ const MyClientsContainer = () => {
     return (
         <Wrapper>
             {/*<h5>*/}
-            {/*    {totalJobs} job{myJobs.length > 1 && 's'} found*/}
+            {/*    {totalClients} client{myClients.length > 1 && 's'} found*/}
             {/*</h5>*/}
             <div className='jobs'>
                 {myClients.map((client) => {

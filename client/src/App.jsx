@@ -8,6 +8,8 @@ import {
     Error,
     NewJob,
     MyJobs,
+    NewClient,
+    MyClients,
     MyProfile,
     Super,
     EditJob,
@@ -20,6 +22,8 @@ import {reactRouterAction as loginAction} from './pages/Login';
 import {reactRouterLoader as dashboardLoader } from './pages/DashboardLayout';
 import {reactRouterAction as newJobAction } from './pages/NewJob';
 import {reactRouterLoader as myJobsLoader } from './pages/MyJobs';
+import {reactRouterAction as newClientAction } from './pages/NewClient';
+import {reactRouterLoader as myClientsLoader } from './pages/MyClients';
 import {reactRouterLoader as editJobLoader } from './pages/EditJob';
 import {reactRouterAction as editJobAction } from './pages/EditJob';
 import {reactRouterAction as deleteJobAction} from './pages/DeleteJob';
@@ -77,6 +81,16 @@ const router = createBrowserRouter([
                         path: 'my-jobs',
                         element: <MyJobs />,
                         loader: myJobsLoader,
+                    },
+                    {
+                        path: 'new-client',
+                        element: <NewClient />,
+                        action: newClientAction,
+                    },
+                    {
+                        path: 'my-clients',
+                        element: <MyClients />,
+                        loader: myClientsLoader,
                     },
                     {
                         path: 'edit-job/:id',
