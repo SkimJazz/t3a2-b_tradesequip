@@ -112,10 +112,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
  * @example Using __dirname to get the directory name of the current module
  * const __dirname = dirname(fileURLToPath(import.meta.url));
  */
-app.use(express.static(path.resolve(__dirname, './public')));
-// app.use(express.static(path.resolve(__dirname, './client/dist')));
-
-
+// app.use(express.static(path.resolve(__dirname, './public')));
+app.use(express.static(path.resolve(__dirname, './client/dist')));
 
 
 /**
@@ -169,9 +167,15 @@ app.use('/api/v0/clients', authenticateUser, clientRouter);
 
 
 // Initial Deployment Route
+// app.get('*', (req, res) => {
+//     res.sendFile(path.resolve(__dirname, './public', 'index.html'));
+// });
+
+
 app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, './public', 'index.html'));
+    res.sendFile(path.resolve(__dirname, './client/dist', 'index.html'));
 });
+
 
 
 // -------------------------- ERROR HANDLING ----------------------- //
