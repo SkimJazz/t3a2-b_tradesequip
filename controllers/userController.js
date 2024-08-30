@@ -1,8 +1,8 @@
 // External imports
 import { StatusCodes } from 'http-status-codes';
 import cloudinary from 'cloudinary';
-import { promises as fs } from 'fs';    // File system module -> promises option
-
+// import { promises as fs } from 'fs';    // File system module -> promises option
+import {formatImage } from "../middleware/handlesMulterMiddleware.js";
 
 // Local imports
 import User from '../models/UserModel.js';
@@ -27,11 +27,9 @@ export const updateUserProfile = async (req, res) => {
 
     // Check BUT only if user is sending image file. Not when changing other fields
     if (req.file) {
+        const file = formatImage(req.file);
         // Cloudinary version 2(v2) Node.js SDK being used -> last update April 22nd 2024
-        const response = await cloudinary.v2.uploader.upload(req.file.path);
-        // Delete image from local file system after uploading to Cloudinary
-        await fs.unlink(req.file.path);
-
+        const response = await cloudinary.v2.uploader.upload(file);
         // Add image to updateUser object
         updateUser.avatar = response.secure_url;
         // Add image public id to updateUser object
