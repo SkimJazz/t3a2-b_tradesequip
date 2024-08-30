@@ -168,6 +168,12 @@ app.use('/api/v0/auth', authRouter);
 app.use('/api/v0/clients', authenticateUser, clientRouter);
 
 
+// Initial Deployment Route
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, './public', 'index.html'));
+});
+
+
 // -------------------------- ERROR HANDLING ----------------------- //
 
 

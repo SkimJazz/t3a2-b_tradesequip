@@ -63,8 +63,8 @@ const Login = () => {
 
                 <h4> Login </h4>
 
-                <FormRow type='email' name='email' defaultValue='josh@email.com'/>
-                <FormRow type='password' name='password' defaultValue='secret123'/>
+                <FormRow type='email' name='email' />
+                <FormRow type='password' name='password' />
 
                 {/*<button type='login' className='btn btn-block'>*/}
                 {/*    submit login*/}

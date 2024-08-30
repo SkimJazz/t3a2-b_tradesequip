@@ -82,11 +82,11 @@ const Signup = () => {
 
                 <h4> Sign Up </h4>
 
-                <FormRow type='text' name='name' labelText='first name' defaultValue='josh'/>
-                <FormRow type='text' name='lastName' labelText='last name' defaultValue='bennett'/>
-                <FormRow type='text' name='location' defaultValue='cairns'/>
-                <FormRow type='email' name='email' defaultValue='josh@email.com'/>
-                <FormRow type='password' name='password' defaultValue='secret123'/>
+                <FormRow type='text' name='name' labelText='first name' />
+                <FormRow type='text' name='lastName' labelText='last name' />
+                <FormRow type='text' name='location' />
+                <FormRow type='email' name='email' />
+                <FormRow type='password' name='password' />
 
                 {/*<button type='submit' className='btn btn-block'>*/}
                 {/*    submit sign up*/}
