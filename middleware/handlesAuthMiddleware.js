@@ -2,7 +2,6 @@
 import {UnauthenticatedError, BadRequestError, UnauthorizedError} from '../errors/customErrors.js';
 import {verifyJWT} from "../utils/tokenUtils.js";
 
-
 // Demo test user check
 export const checkForDemoUser = (req, res, next) => {
     if (req.user.demoUser) {
@@ -48,7 +47,7 @@ export const authenticateUser = (req, res, next) => {
 };
 
 
-// Application Stats -> authorize users based on their role (Only Admin)
+// Application Stats -> authorize users based on their role (Only Super Admins can access)
 export const authorizePermissions = (...roles) => {
     return (req, res, next) => {
         // console.log(roles);  // ['super']
