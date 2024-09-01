@@ -50,13 +50,10 @@ export const login = async (req, res) => {
         // if not then can still access it using the http protocol
         secure: process.env.NODE_ENV === 'production',
     });
-
     // res.send('login route');
     res.status(StatusCodes.OK).json({ msg: `Welcome ${user.name}!` });
     // res.json({ token });
 };
-
-
 
 
 

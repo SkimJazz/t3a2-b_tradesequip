@@ -7,19 +7,6 @@ import Client from '../models/ClientModel.js';
 
 
 
-// WARNING: clientName in this file may have conflicts with the clientName
-// in the jobController.js file. This is because the clientName is a common
-// field in both the client and job objects.
-
-// When the User creates a Job and assigns a Client to the job, the clientName
-// field will be destructured from the client object.
-// The createNewClient function can be included in the JobController.js file
-// to avoid conflicts. This will allow the clientName field to be destructured
-// from the client object in the jobController.js file. So when the User creates
-// new job, and assigns a client, the clientName will be assigned an id, that
-// can be accessed in the My Clients page.
-
-
 // GET ALL MY CLIENTS
 export const getMyClients = async (req, res) => {
     // console.log(req);

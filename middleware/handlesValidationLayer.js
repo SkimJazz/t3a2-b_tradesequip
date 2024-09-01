@@ -1,7 +1,8 @@
-// Validation layer using the 'express-validator library'. Checks the values of
-// the request body and query parameters before they are passed to the controller
-// functions. Can be reused in multiple controllers across other projects.
-
+/**
+ * Validation layer using the 'express-validator library'. Checks the values of
+ * the request body and query parameters before they are passed to the controller
+ * functions. Can be reused in multiple controllers across other projects.
+ */
 // Library imports
 import mongoose from "mongoose";
 import { body, param, validationResult } from 'express-validator';

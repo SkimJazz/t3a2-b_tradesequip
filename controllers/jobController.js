@@ -1,7 +1,5 @@
-
 // Library imports
 import { StatusCodes } from 'http-status-codes';
-
 
 // Local imports
 import Job from '../models/JobModel.js';
@@ -66,15 +64,12 @@ export const getMyJobs = async (req, res) => {
 };
 
 
-
-
 // GET JOB BY ID
 export const getJobById = async (req, res) => {
     // const { id } = req.params; // Destructure id from req.params object
     const job = await Job.findById(req.params.id);
     res.status(StatusCodes.OK).json({ job });
 };
-
 
 
 // CREATE NEW JOB

@@ -1,7 +1,7 @@
 // External imports
 import { StatusCodes } from 'http-status-codes';
 import cloudinary from 'cloudinary';
-// import { promises as fs } from 'fs';    // File system module -> promises option
+// import { promises as fs } from 'fs';    // File system module -> promises option not used but can be
 import {formatImage } from "../middleware/handlesMulterMiddleware.js";
 
 // Local imports
@@ -10,12 +10,12 @@ import Job from '../models/JobModel.js';
 import Client from '../models/ClientModel.js';
 
 
+// GET CURRENT USER PROFILE
 export const getCurrentUser = async (req, res) => {
     const user = await User.findOne({ _id: req.user.userId });
     const userWithoutPassword = user.toJSON();
     res.status(StatusCodes.OK).json({ user: userWithoutPassword });
 };
-
 
 
 // UPDATE CURRENT USERS PROFILE
