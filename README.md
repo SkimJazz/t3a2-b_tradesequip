@@ -1,39 +1,98 @@
-// @formatter:off
-
 # TradesEquip
 
 ## Repo Link
 
-[TradesEquip](https://github.com/SkimJazz/t3a2-b_tradesequip)
+[T3A2 Part A](https://github.com/SkimJazz/t3a2-a_full-stack-app)
+
+[T3A2 Part B](https://github.com/SkimJazz/t3a2-b_tradesequip)
 
 
 ---
 ## Website Link
 
 [TradesEquip](https://t3a2-b-tradesequip.onrender.com)
-
-```js
-/** 
- * TODO: Remember to 'Custom Domain' the website link in Render.com
- * 
- * */
-
-
-```
-
+> Note:
+> 1. The website is hosted on **Render.com** using the free Web Service, and may take a few seconds to load initially.
+> 2. NO Custom Domain is used for the website. No domain service allowed for the Website name "**tradesequip.com.au**"   
+     unless a custom domain was purchased.
 
 ---
 
+## What was not implemented
+
+**Scheduled Tasks**
+
+Scheduling tasks was not implemented in this version of the application. The feature would allow users to schedule 
+tasks and set reminders for jobs and clients. The feature would include a calendar view, task lists, and notifications
+for upcoming tasks.
+
+**Job and Client combination form submission**
+
+This version of application does not support linking a job form with a client form. The feature would allow users to
+create a new client and job in a single form submission, reducing the number of steps required to add a new job.
+This feature would improve the user experience and streamline the process of adding new clients and jobs. When the 
+user creates a new job, they can select an existing client or create a new client in the same form. When submitting
+the new Job the Client is also submitted and linked to the Job via the jobs ID. The newly submitted client will have its
+own ID and can be viewed in the clients list. When viewing the client details the user can see the jobs linked to the client.
+Essentially the client is created in the background and linked to the job via the job ID, but can be viewed independently.
+An attempt was made to implement this feature, but due to time constraints, it was not completed.
+
+
 ## Installation
 
-```js
-/**
- * TODO: Add this after the project is deployed
- * scripts need to be added to the server side package.json file
- * The updated script will allow the user / developer to run a 'one liner' command to
- * install the project dependencies and start the server and client concurrently. AWESOME!
- */
+### 1. Clone the Project Repository 
+```sh
+git clone https://github.com/SkimJazz/t3a2-b_tradesequip.git
+cd t3a2-b_tradesequip
 ```
+or  [Download ZIP file](https://github.com/SkimJazz/t3a2-b_tradesequip) from the repo
+
+### 2. Create `.env` file in root directory
+
+The `.env` file should contain the following environment variables:
+
+```js
+NODE_ENV=Set to `development` or `production`
+PORT=Port number for the server to run on
+MONGO_URL=MongoDB connection string
+JWT_SECRET=Secret key for JWT token generation
+JWT_EXPIRES_IN=Expiration time for JWT token
+CLOUD_NAME=Cloudinary account name (string char value)
+CLOUD_API_KEY=Cloudinary API key (string number value)
+CLOUD_API_SECRET=Cloudinary API secret (string char value)
+````
+
+> **IMPORTANT !**
+> 1. Ref `server.js` file for SERVER CONNECTION port config
+> 2. The app WILL NOT run without all the above environment variables set in the `.env` file. (ALL OF THEM)
+
+### 3. Install Dependencies
+
+#### For Development
+```sh
+npm run setup-project
+```
+
+#### For Production
+
+```sh
+npm run setup-production-app
+```
+> Not needed if you just want to run the app in development mode.
+
+### 4. Start the Application
+
+#### For Development
+```sh
+npm run dev
+```
+
+#### For Production
+1. Start the server:
+    ```sh
+    npm run server
+    ```
+2. Serve the built client application (typically done by the server in production).
 
 
 ---
@@ -42,23 +101,7 @@
 The `Tradesequip` project is organized into two main directories: `client` and the projects root directory `server`. 
 The `client` directory contains the frontend code, which is built using React, while the `server` directory contains
 the backend code, which is built using Node.js and Express.
-```js
-/** 
- * TODO: Add stuff about Vite
- * Vite can be used to improve the development workflow, especially for the frontend built with React.
- * 
- * Vite Benefits:
- * - Faster build times
- * - Hot module replacement
- * - Improved development experience - faster development server and better error handling
- * - Better performance - faster page loads and better runtime performance
- * - Easier to configure
- * - Modern JavaScript support
- * 
- * TODO: Include MERN stack, project description, and project goals
- * */
 
-```
 
 ### Client Directory
 The `client` directory is structured to separate concerns and improve maintainability. It includes subdirectories
@@ -77,8 +120,9 @@ database, and implementing business logic.
 
 ### Key Features and Functionalities
 
-- **Demo User**: Application includes a demo user with pre-populated data for user to test the app before signing up.
 - **User Authentication**: Users can sign up, log in, and log out of the application.
+- **Super User**: Application includes a super user with additional permissions and access to app stats.
+- **Demo User**: Application includes a demo user with pre-populated data for user to test the app before signing up.
 - **Client Management**: Users can add, view, edit, and delete clients.
 - **Job Management**: Users can add, view, edit, and delete jobs for each client.
 - **Dashboard**: Users can view a summary of their clients and jobs on the dashboard.
@@ -92,50 +136,16 @@ database, and implementing business logic.
 ---
 ## Frontend
 
-## Front-End Dependencies
-
-### axios
-**axios** is a promise-based HTTP client for the browser and Node.js. It simplifies making asynchronous HTTP requests 
-to REST endpoints, handling responses, and performing various network-related tasks.
-
-### react
-**react** is a free and open-source front-end JavaScript library for building user interfaces based on components. 
-Developed by Facebook, it allows developers to create large web applications that can update and render efficiently 
-in response to data changes.
-
-### react-dom
-**react-dom** serves as the entry point to the DOM and server renderers for React. It provides DOM-specific methods 
-that can be used at the top level of a web app to enable an efficient way of managing DOM elements.
-
-### react-icons
-**react-icons** allows you to include popular icons in your React projects easily. It utilizes ES6 imports, enabling 
-you to include only the icons that your project is using, thus optimizing performance.
-
-### react-router-dom
-**react-router-dom** contains bindings for using React Router in web applications. It enables dynamic routing in a web
-app, allowing the app to update the URL and render new UI without making another request for a new document from the 
-server.
-
-### react-toastify
-**react-toastify** allows you to add notifications to your app with ease. It provides a simple and customizable 
-interface for creating toast notifications that can display messages, alerts, or notifications to users in a 
-non-intrusive way.
-
-### styled-components
-**styled-components** is a library for styling React components using tagged template literals. It enables you to write
-CSS in JavaScript by creating styled components, which are essentially React components with associated styles.
-
-
-
 ### Libraries & Packages & Technologies
 - JavaScript (ES6 Modules)
-- React
-- npm 
-- styled-components
-- react-router-dom
-- dayjs
-- react-icons
-- react-toastify
+- Axios - for making HTTP requests
+- React - for building the user interface
+- styled-components - for styling React components
+- react-dom - for rendering React components
+- react-router-dom - for routing in the application
+- dayjs - for date formatting
+- react-icons - for using icons in the application
+- react-toastify - for toast notifications
 
 ### Key Components
 - **`client/src/components`**: Contains reusable React components such as `Client`, `FormRow`, `Job`, `Navbar`, etc.
@@ -157,18 +167,18 @@ based on props.
 ## Backend
 
 ### Libraries & Packages & Technologies
-- Node.js
-- Express
-- MongoDB
-- Mongoose
-- bcryptjs
-- cloudinary
-- cookie-parser
-- dotenv
-- express-validator
-- jsonwebtoken
-- multer
-- nanoid
+- Node.js - for server-side JavaScript
+- Express - for building the API server
+- MongoDB - for storing data
+- Mongoose - for object data modeling
+- bcryptjs - for hashing passwords
+- cloudinary - user profile image uploads
+- cookie-parser - for parsing HTTP cookies
+- dotenv - for loading environment variables
+- express-validator - for validating request data
+- jsonwebtoken - for generating JWT tokens
+- multer - for handling file uploads
+- nanoid - for generating unique IDs
 
 ### Key Directory Components of the Backend
 - **`controllers`**: Contains controller functions for handling requests.
@@ -460,12 +470,23 @@ and Functional Programming (FP) paradigms.
 
 - **DELETE** `/api/v0/clients/:id`
     - Client ID needed in URL
-    - `{{url}}/clients/66d13405c48d9e063f6d3472`
+    - `{{url}}/clients/66d13496be82d134128ecd6b` Using APD Engineering ID
   
     - **Response:**
     ```js
-        /** TODO: Add DELTE response */
-
+       {
+          "msg": "client deleted",
+          "client": {
+              "_id": "66d13496be82d134128ecd6b",
+              "clientCompName": "APD Engineering",
+              "clientAddress": "Level 18, 160 Ann Street, Brisbane, Queensland 4000",
+              "projectContact": "Stanton Harce",
+              "createdBy": "66cafc4e4666e325f8213df5",
+              "createdAt": "2023-10-13T19:56:20.000Z",
+              "updatedAt": "2023-10-13T19:56:20.000Z",
+              "__v": 0
+              }
+      }
     ```
   
 <br>
@@ -615,6 +636,10 @@ and Functional Programming (FP) paradigms.
 
 ## Database and Setup
 
+### User, Job, and Client data
+
+#### MongoDB
+
 This MERN application uses MongoDB, a NoSQL database, with Mongoose as the Object Data Modeling (ODM) library.
 The database structure includes collections that correspond to Mongoose models defined in the `models` directory.
 
@@ -628,15 +653,63 @@ This setup allows the application to perform CRUD operations on the MongoDB data
 
 > Ref: `server.js` for the database connection setup and `models` directory for Mongoose models.
 
+<br>
+
+### User Image Profile
+
+#### Cloudinary
+
+The application uses Cloudinary for file uploads, allowing users to upload image files for there profile. Cloudinary 
+is a cloud-based image and video management service that provides a secure and scalable solution for storing and
+managing media files.
+
+Key components related to Cloudinary include:
+- `multer`: Middleware for handling file uploads.
+- `cloudinary`: Library for interacting with the Cloudinary API.
+- `controllers`: Functions for uploading and deleting images from Cloudinary.
+- `models`: Mongoose models for storing image URLs and public IDs.
+- `routes`: API endpoints for uploading and deleting images.
+- `utils`: Utility functions for interacting with Cloudinary.
+- `middleware`: Middleware functions for handling file uploads and image processing.
+- `errors`: Custom error classes for handling image upload errors.
+- `server.js`: Configuration for Cloudinary API keys and secrets.
+- `.env`: Environment variables for Cloudinary account details.
+
+---
 ## Deployment
 
-## Testing
+Both the frontend and backend of the application are deployed on Render.com, a cloud platform that provides hosting
+and deployment services for web applications. The application is deployed using the free Web Service plan.
 
-### Development
 
-### Production
+---
+## Planning and Project Management - PART B
 
-## Project Management
+Trello was used for project management, with tasks organized into a single board, with multiple lists, and cards. 
+The Trello board was used to track progress. The board was divided into lists for each stage of the project, such as
+TODO, In Progress, Issues, Not Implemented, and Done. Each card represented a task or feature, with detailed descriptions,
+checklists, and labels to indicate priority and status. The following images show the Trello board used for project 
+management over 4 weeks of check-ins and updates.
 
-### Trello
+### Trello Board
+
+#### Week 1 planning and progress
+
+![Trello week1](/docs/images/trello_w1.png)
+
+#### Week 2 planning and progress
+
+![Trello week2](/docs/images/trello_w2.png)
+
+#### Week 3 planning and progress
+
+![Trello week3](/docs/images/trello_w3.png)
+
+#### Week 4 planning and progress
+
+![Trello week4](/docs/images/trello_w4.png)
+---
+
+
+
 
